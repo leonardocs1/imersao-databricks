@@ -1,7 +1,7 @@
-CREATE OR REFRESH LIVE TABLE lakehouse.bronze.sales_btc
+CREATE OR REFRESH STREAMING LIVE TABLE lakehouse.bronze.sales_btc
 TBLPROPERTIES ("quality" = "bronze")
 AS
 SELECT
   *,
   current_timestamp() AS ingestion_ts_utc
-FROM postgres_coin.public.sales_btc;
+FROM STREAM(lakehouse.raw.sales_btc);

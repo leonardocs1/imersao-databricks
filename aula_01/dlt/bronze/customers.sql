@@ -1,7 +1,7 @@
-CREATE OR REFRESH LIVE TABLE lakehouse.bronze.customers
+CREATE OR REFRESH STREAMING LIVE TABLE lakehouse.bronze.customers
 TBLPROPERTIES ("quality" = "bronze")
 AS
 SELECT
   *,
   current_timestamp() AS ingestion_ts_utc
-FROM postgres_coin.public.customers;
+FROM STREAM(lakehouse.raw.customers);
