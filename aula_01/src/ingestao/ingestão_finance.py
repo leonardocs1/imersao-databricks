@@ -69,8 +69,3 @@ df.to_json(file_name, orient="records", lines=True, force_ascii=False)
 
 print(f"✅ JSON salvo em: {file_name}")
 
-
-# COMMAND ----------
-
-# MAGIC %sql
-# MAGIC DESCRIBE FORMATTED lakehouse.bronze.sales_btc;
