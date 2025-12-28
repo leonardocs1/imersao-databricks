@@ -1,7 +1,22 @@
-CREATE OR REFRESH STREAMING LIVE TABLE lakehouse.bronze.customers
-TBLPROPERTIES ("quality" = "bronze")
-AS
-SELECT
-  *,
-  current_timestamp() AS ingestion_ts_utc
-FROM STREAM(lakehouse.raw.customers);
+-- =====================================================
+-- Tabela Bronze: customers
+-- Descrição: Ingestão de dados de clientes do volume CSV
+-- Fonte: /Volumes/lakehouse/raw_public/customers
+-- =====================================================
+
+CREATE OR REFRESH STREAMING TABLE lakehouse.bronze.customers
+AS SELECT 
+  customer_id,
+  customer_name,
+  documento,
+  segmento,
+  pais,
+  estado,
+  cidade,
+  created_at,
+  current_timestamp() as ingested_at
+FROM cloud_files(
+  "/Volumes/lakehouse/raw_public/customers",
+  "csv",
+  map("header", "true", "inferSchema", "true")
+)
